@@ -1,0 +1,341 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "llama-openai-server",
+    "description": "OpenAI-compatible API backed by llama.cpp (ROCm/AMD GPU)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "model_id",
+      "value": "local-model",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Liveness",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/health",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "health"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\"status\": \"ok\"}"
+            }
+          ]
+        },
+        {
+          "name": "Readiness",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/health/ready",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "health", "ready"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 Ready",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\"status\": \"ready\"}"
+            },
+            {
+              "name": "200 Not Ready",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\"status\": \"not_ready\"}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "item": [
+        {
+          "name": "List Models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/models",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "models"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"local-model\",\n      \"object\": \"model\",\n      \"created\": 0,\n      \"owned_by\": \"local\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chat Completions",
+      "item": [
+        {
+          "name": "Chat — Basic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of France?\"}\n  ],\n  \"temperature\": 0.7,\n  \"max_tokens\": 256\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\n  \"id\": \"chatcmpl-abc123\",\n  \"object\": \"chat.completion\",\n  \"created\": 1715200000,\n  \"model\": \"local-model\",\n  \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\"role\": \"assistant\", \"content\": \"Paris.\"},\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\"prompt_tokens\": 20, \"completion_tokens\": 5, \"total_tokens\": 25}\n}"
+            }
+          ]
+        },
+        {
+          "name": "Chat — Streaming",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Accept", "value": "text/event-stream"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\"role\": \"user\", \"content\": \"Tell me a short joke.\"}\n  ],\n  \"temperature\": 0.9,\n  \"max_tokens\": 128,\n  \"stream\": true\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Chat — JSON Mode",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\"role\": \"system\", \"content\": \"You are a JSON API. Respond only with valid JSON.\"},\n    {\"role\": \"user\", \"content\": \"Give me a user object with name and age fields.\"}\n  ],\n  \"response_format\": {\"type\": \"json_object\"},\n  \"temperature\": 0.2,\n  \"max_tokens\": 256\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Chat — Vision (Gemma 4 / CLIP mmproj)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\"url\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/240px-PNG_transparency_demonstration_1.png\"}\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \"What is in this image?\"\n        }\n      ]\n    }\n  ],\n  \"max_tokens\": 512\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Chat — Vision with Base64 Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\"url\": \"data:image/jpeg;base64,<BASE64_ENCODED_IMAGE>\"}\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \"Describe this image in detail.\"\n        }\n      ]\n    }\n  ],\n  \"max_tokens\": 512\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Chat — Multi-turn",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n    {\"role\": \"user\", \"content\": \"My name is Alice.\"},\n    {\"role\": \"assistant\", \"content\": \"Hello Alice! How can I help you today?\"},\n    {\"role\": \"user\", \"content\": \"What is my name?\"}\n  ],\n  \"temperature\": 0.7,\n  \"max_tokens\": 128\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Chat — Stop Sequences & Seed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"messages\": [\n    {\"role\": \"user\", \"content\": \"Count from 1 to 10.\"}\n  ],\n  \"temperature\": 0.0,\n  \"max_tokens\": 64,\n  \"stop\": [\"5\", \"five\"],\n  \"seed\": 42\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Completions (Text)",
+      "item": [
+        {
+          "name": "Completion — Basic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"prompt\": \"The quick brown fox\",\n  \"temperature\": 0.7,\n  \"max_tokens\": 64\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "completions"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": "{\n  \"id\": \"cmpl-abc123\",\n  \"object\": \"text_completion\",\n  \"created\": 1715200000,\n  \"model\": \"local-model\",\n  \"choices\": [\n    {\n      \"index\": 0,\n      \"text\": \" jumps over the lazy dog.\",\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\"prompt_tokens\": 5, \"completion_tokens\": 7, \"total_tokens\": 12}\n}"
+            }
+          ]
+        },
+        {
+          "name": "Completion — Streaming",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Accept", "value": "text/event-stream"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"prompt\": \"Once upon a time\",\n  \"temperature\": 0.8,\n  \"max_tokens\": 128,\n  \"stream\": true\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Completion — JSON Mode",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"prompt\": \"Return a JSON object with fields: city (string), population (number)\",\n  \"response_format\": {\"type\": \"json_object\"},\n  \"temperature\": 0.0,\n  \"max_tokens\": 128\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "completions"]
+            }
+          }
+        },
+        {
+          "name": "Completion — With System Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"{{model_id}}\",\n  \"prompt\": \"Explain what a neural network is.\",\n  \"system_prompt\": \"You are a concise technical writer. Keep answers under 3 sentences.\",\n  \"temperature\": 0.5,\n  \"max_tokens\": 200\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "completions"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
