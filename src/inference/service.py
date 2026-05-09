@@ -243,7 +243,10 @@ class _LlamaCppBackend(_Backend):
             },
         )
 
-        # Load the Gemma 4 (and compatible) vision chat handler when an mmproj is provided.
+        # Load the vision chat handler when an mmproj is provided.
+        # Prefer Gemma3ChatHandler (added in llama-cpp-python ≥ 0.3.x) for
+        # Gemma 4; fall back to Llava15ChatHandler which accepts the same
+        # clip_model_path and works with any CLIP-based mmproj including Gemma 4.
         chat_handler = None
         if clip_model_path:
             try:
@@ -253,11 +256,23 @@ class _LlamaCppBackend(_Backend):
                     "clip_chat_handler_loaded",
                     extra={"clip_model_path": clip_model_path, "handler": "Gemma3ChatHandler"},
                 )
-            except (ImportError, AttributeError) as exc:
-                raise RuntimeError(
-                    "Gemma3ChatHandler not found in llama_cpp.llama_chat_format. "
-                    "Upgrade llama-cpp-python to a version that supports Gemma 4 vision."
-                ) from exc
+            except (ImportError, AttributeError):
+                try:
+                    from llama_cpp.llama_chat_format import Llava15ChatHandler
+                    chat_handler = Llava15ChatHandler(clip_model_path=clip_model_path, verbose=False)
+                    logger.warning(
+                        "clip_chat_handler_fallback",
+                        extra={
+                            "clip_model_path": clip_model_path,
+                            "handler": "Llava15ChatHandler",
+                            "reason": "Gemma3ChatHandler not found; upgrade llama-cpp-python for native Gemma 4 support",
+                        },
+                    )
+                except (ImportError, AttributeError) as exc:
+                    raise RuntimeError(
+                        "No vision chat handler found in llama_cpp.llama_chat_format. "
+                        "Ensure llama-cpp-python is installed."
+                    ) from exc
 
         # Try most-capable init first; fall back progressively for older
         # llama-cpp-python versions that lack certain keyword arguments.
