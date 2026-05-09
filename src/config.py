@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     hf_model_filename: str | None = None
     hf_revision: str = "main"
 
+    # Multimodal / vision — CLIP mmproj for Gemma 4 and compatible vision models
+    clip_model_path: str | None = None
+    hf_clip_repo_id: str | None = None
+    hf_clip_filename: str | None = None
+
     # llama.cpp backend parameters
     n_gpu_layers: int = 80
     n_ctx: int = 0  # 0 = auto-detect from VRAM

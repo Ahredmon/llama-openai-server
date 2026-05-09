@@ -146,7 +146,23 @@ def _content_to_str(content: MessageContent) -> str:
 
 
 def _messages_to_dicts(messages: list[ChatMessage]) -> list[dict[str, Any]]:
-    return [{"role": m.role, "content": _content_to_str(m.content)} for m in messages]
+    result = []
+    for m in messages:
+        if isinstance(m.content, str):
+            content: Any = m.content
+        else:
+            has_images = any(isinstance(p, ImageUrlContentPart) for p in m.content)
+            if has_images:
+                content = [
+                    {"type": "text", "text": p.text}
+                    if isinstance(p, TextContentPart)
+                    else {"type": "image_url", "image_url": {"url": p.image_url.url}}
+                    for p in m.content
+                ]
+            else:
+                content = _content_to_str(m.content)
+        result.append({"role": m.role, "content": content})
+    return result
 
 
 # ---------------------------------------------------------------------------

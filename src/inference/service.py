@@ -215,6 +215,7 @@ class _LlamaCppBackend(_Backend):
         offload_kqv: bool,
         flash_attn: bool,
         f16_kv: bool,
+        clip_model_path: str | None = None,
     ) -> None:
         self.model_id = model_id
         try:
@@ -242,6 +243,22 @@ class _LlamaCppBackend(_Backend):
             },
         )
 
+        # Load the Gemma 4 (and compatible) vision chat handler when an mmproj is provided.
+        chat_handler = None
+        if clip_model_path:
+            try:
+                from llama_cpp.llama_chat_format import Gemma3ChatHandler
+                chat_handler = Gemma3ChatHandler(clip_model_path=clip_model_path, verbose=False)
+                logger.info(
+                    "clip_chat_handler_loaded",
+                    extra={"clip_model_path": clip_model_path, "handler": "Gemma3ChatHandler"},
+                )
+            except (ImportError, AttributeError) as exc:
+                raise RuntimeError(
+                    "Gemma3ChatHandler not found in llama_cpp.llama_chat_format. "
+                    "Upgrade llama-cpp-python to a version that supports Gemma 4 vision."
+                ) from exc
+
         # Try most-capable init first; fall back progressively for older
         # llama-cpp-python versions that lack certain keyword arguments.
         for kwargs in [
@@ -257,6 +274,7 @@ class _LlamaCppBackend(_Backend):
                 offload_kqv=offload_kqv,
                 flash_attn=flash_attn,
                 f16_kv=f16_kv,
+                chat_handler=chat_handler,
                 verbose=False,
             ),
             dict(
@@ -268,6 +286,7 @@ class _LlamaCppBackend(_Backend):
                 n_ubatch=n_ubatch,
                 n_gpu_layers=n_gpu_layers,
                 mlock=mlock,
+                chat_handler=chat_handler,
                 verbose=False,
             ),
             dict(
@@ -278,6 +297,7 @@ class _LlamaCppBackend(_Backend):
                 n_ubatch=n_ubatch,
                 n_gpu_layers=n_gpu_layers,
                 mlock=mlock,
+                chat_handler=chat_handler,
                 verbose=False,
             ),
         ]:
@@ -435,6 +455,7 @@ class InferenceService:
 
         self._validate_rocm()
         model_path = self._resolve_model_path()
+        clip_path = self._resolve_clip_path()
         n_ctx = self.settings.n_ctx if self.settings.n_ctx > 0 else _auto_detect_n_ctx()
 
         def _init() -> _Backend:
@@ -451,6 +472,7 @@ class InferenceService:
                 offload_kqv=self.settings.offload_kqv,
                 flash_attn=self.settings.flash_attn,
                 f16_kv=self.settings.f16_kv,
+                clip_model_path=str(clip_path) if clip_path else None,
             )
 
         self._backend = self._executor.submit(_init).result()
@@ -598,6 +620,40 @@ class InferenceService:
             "No model file found. Set MODEL_PATH or configure "
             "HF_REPO_ID + HF_MODEL_FILENAME."
         )
+
+    def _resolve_clip_path(self) -> Path | None:
+        clip_path = getattr(self.settings, "clip_model_path", None)
+        if clip_path:
+            p = Path(clip_path)
+            if p.exists():
+                return p
+            raise RuntimeError(f"CLIP_MODEL_PATH set but file not found: {p}")
+
+        hf_clip_filename = getattr(self.settings, "hf_clip_filename", None)
+        hf_clip_repo_id = getattr(self.settings, "hf_clip_repo_id", None)
+
+        if hf_clip_filename:
+            local = Path(self.settings.models_dir) / hf_clip_filename
+            if local.exists():
+                return local
+
+        if hf_clip_repo_id and hf_clip_filename:
+            try:
+                from huggingface_hub import hf_hub_download
+            except ImportError as exc:
+                raise RuntimeError(
+                    "huggingface_hub is required for mmproj auto-download: "
+                    "pip install huggingface_hub"
+                ) from exc
+            downloaded = hf_hub_download(
+                repo_id=hf_clip_repo_id,
+                filename=hf_clip_filename,
+                revision=self.settings.hf_revision,
+                local_dir=self.settings.models_dir,
+            )
+            return Path(downloaded)
+
+        return None
 
 
 # ---------------------------------------------------------------------------
