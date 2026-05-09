@@ -231,8 +231,6 @@ def chat_completions(request: ChatCompletionRequest) -> Any:
         ],
         usage=OAIUsage(**result["usage"]),
     )
-"""POST /v1/chat/completions — OpenAI Chat Completions API."""
-from __future__ import annotations
 
 import json
 import time
