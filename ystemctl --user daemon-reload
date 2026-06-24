@@ -1,0 +1,345 @@
+May 12 14:01:49 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 720.[0m
+May 12 14:01:49 hobbes llama-openai-server[11756]: Usage: uvicorn [OPTIONS] APP
+May 12 14:01:49 hobbes llama-openai-server[11756]: Try 'uvicorn --help' for help.
+May 12 14:01:49 hobbes llama-openai-server[11756]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:01:49 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:01:49 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:01:54 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 1.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:01:54 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 743.[0m
+May 12 14:01:54 hobbes llama-openai-server[11789]: Usage: uvicorn [OPTIONS] APP
+May 12 14:01:54 hobbes llama-openai-server[11789]: Try 'uvicorn --help' for help.
+May 12 14:01:54 hobbes llama-openai-server[11789]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:01:54 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:01:54 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:01:59 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 2.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:01:59 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 766.[0m
+May 12 14:01:59 hobbes llama-openai-server[11791]: Usage: uvicorn [OPTIONS] APP
+May 12 14:01:59 hobbes llama-openai-server[11791]: Try 'uvicorn --help' for help.
+May 12 14:01:59 hobbes llama-openai-server[11791]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:01:59 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:01:59 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:05 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 3.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:05 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 789.[0m
+May 12 14:02:05 hobbes llama-openai-server[11811]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:05 hobbes llama-openai-server[11811]: Try 'uvicorn --help' for help.
+May 12 14:02:05 hobbes llama-openai-server[11811]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:05 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:05 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:08 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job immediately on client request, restart counter is at 4.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:08 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 812.[0m
+May 12 14:02:08 hobbes llama-openai-server[11814]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:08 hobbes llama-openai-server[11814]: Try 'uvicorn --help' for help.
+May 12 14:02:08 hobbes llama-openai-server[11814]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:08 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:08 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:14 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 5.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:14 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 858.[0m
+May 12 14:02:14 hobbes llama-openai-server[11825]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:14 hobbes llama-openai-server[11825]: Try 'uvicorn --help' for help.
+May 12 14:02:14 hobbes llama-openai-server[11825]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:14 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:14 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:19 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 6.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:19 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 881.[0m
+May 12 14:02:19 hobbes llama-openai-server[11827]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:19 hobbes llama-openai-server[11827]: Try 'uvicorn --help' for help.
+May 12 14:02:19 hobbes llama-openai-server[11827]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:19 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:19 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:24 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 7.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:24 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 904.[0m
+May 12 14:02:24 hobbes llama-openai-server[11846]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:24 hobbes llama-openai-server[11846]: Try 'uvicorn --help' for help.
+May 12 14:02:24 hobbes llama-openai-server[11846]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:24 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:24 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:29 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 8.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:29 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 927.[0m
+May 12 14:02:29 hobbes llama-openai-server[11853]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:29 hobbes llama-openai-server[11853]: Try 'uvicorn --help' for help.
+May 12 14:02:29 hobbes llama-openai-server[11853]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:29 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:29 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:35 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 9.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:35 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 950.[0m
+May 12 14:02:35 hobbes llama-openai-server[11874]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:35 hobbes llama-openai-server[11874]: Try 'uvicorn --help' for help.
+May 12 14:02:35 hobbes llama-openai-server[11874]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:35 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:35 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m
+May 12 14:02:40 hobbes systemd[1780]: llama-openai-server.service: Scheduled restart job, restart counter is at 10.
+[0;38:5:245m░░ [0m[0;32mSubject: Automatic restarting of a unit has been scheduled[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAutomatic restarting of the unit UNIT has been scheduled, as the result for[0m
+[0;38:5:245m░░[0m [0;32mthe configured Restart= setting for the unit.[0m
+May 12 14:02:40 hobbes systemd[1780]: Started llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD).
+[0;38:5:245m░░ [0m[0;32mSubject: A start job for unit UNIT has finished successfully[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mA start job for unit UNIT has finished successfully.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe job identifier is 973.[0m
+May 12 14:02:40 hobbes llama-openai-server[11876]: Usage: uvicorn [OPTIONS] APP
+May 12 14:02:40 hobbes llama-openai-server[11876]: Try 'uvicorn --help' for help.
+May 12 14:02:40 hobbes llama-openai-server[11876]: Error: Invalid value for '--port': '${PORT:-8000}' is not a valid integer.
+May 12 14:02:40 hobbes systemd[1780]: [0;1;39m[0;1;31m[0;1;39mllama-openai-server.service: Main process exited, code=exited, status=2/INVALIDARGUMENT[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mAn ExecStart= process belonging to unit UNIT has exited.[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 2.[0m
+May 12 14:02:40 hobbes systemd[1780]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mllama-openai-server.service: Failed with result 'exit-code'.[0m
+[0;38:5:245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38:5:245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38:5:245m░░[0m [0;32mSupport: https://lists.freedesktop.org/mailman/listinfo/systemd-devel[0m
+[0;38:5:245m░░[0m [0;32m[0m
+[0;38:5:245m░░[0m [0;32mThe unit UNIT has entered the 'failed' state with result 'exit-code'.[0m

@@ -26,10 +26,13 @@ class Settings(BaseSettings):
     hf_model_filename: str | None = None
     hf_revision: str = "main"
 
-    # Multimodal / vision — CLIP mmproj for Gemma 4 and compatible vision models
+    # Vision / multimodal (mmproj)
     clip_model_path: str | None = None
     hf_clip_repo_id: str | None = None
     hf_clip_filename: str | None = None
+    # Chat handler to use for vision.  "auto" = detect from model filename.
+    # Options: auto | llava15 | llava16 | moondream | qwen2vl | gemma3 | minicpmv
+    clip_chat_handler: str = "auto"
 
     # llama.cpp backend parameters
     n_gpu_layers: int = 80
@@ -44,6 +47,10 @@ class Settings(BaseSettings):
     offload_kqv: bool = True
     flash_attn: bool = False
     f16_kv: bool = True
+    # KV cache quantization: None = inherit f16_kv, 1=F16, 8=Q8_0, 2=Q4_0
+    # Q8_0 halves KV VRAM vs F16 with negligible quality loss.
+    type_k: int | None = None
+    type_v: int | None = None
 
     # Defaults used when a request omits generation parameters
     default_temperature: float = 0.7

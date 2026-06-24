@@ -1,8 +1,9 @@
 fastapi==0.116.0
 uvicorn[standard]==0.35.0
-pydantic==2.13.4
-pydantic-settings==2.14.1
+pydantic==2.11.7
+pydantic-settings==2.10.1
 huggingface_hub==0.34.4
+ddgs>=1.0
 # llama-cpp-python must be built from source for ROCm/AMD — see README
 # CMAKE_ARGS="-DGGML_HIPBLAS=on -DCMAKE_HIP_ARCHITECTURES=gfx1201" \
 #   FORCE_CMAKE=1 pip install llama-cpp-python --no-binary llama-cpp-python

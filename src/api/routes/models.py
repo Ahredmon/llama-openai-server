@@ -23,6 +23,7 @@ class ModelObject(BaseModel):
     object: Literal["model"] = "model"
     created: int
     owned_by: str
+    vision: bool = False
 
 
 class ModelsListResponse(BaseModel):
@@ -35,12 +36,15 @@ def list_models() -> ModelsListResponse:
     if _svc is None:
         return ModelsListResponse(data=[])
     meta = _svc.model_metadata()
+    backend = getattr(_svc, "_backend", None)
+    vision = getattr(backend, "vision_enabled", False)
     return ModelsListResponse(
         data=[
             ModelObject(
                 id=meta["id"],
                 created=int(time.time()),
                 owned_by=meta.get("owned_by", "local"),
+                vision=vision,
             )
         ]
     )

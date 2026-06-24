@@ -49,9 +49,6 @@ uvicorn src.main:app --host 0.0.0.0 --port 8000
 | `MODEL_PATH` | — | Absolute or relative path to a GGUF file |
 | `HF_REPO_ID` | — | HuggingFace repo for auto-download |
 | `HF_MODEL_FILENAME` | — | Filename within the HF repo |
-| `CLIP_MODEL_PATH` | — | Path to the CLIP mmproj GGUF (enables Gemma 4 vision) |
-| `HF_CLIP_REPO_ID` | — | HuggingFace repo for mmproj auto-download |
-| `HF_CLIP_FILENAME` | — | Filename of the mmproj within the HF repo |
 | `N_GPU_LAYERS` | `80` | Layers to offload to GPU |
 | `N_CTX` | `0` | Context window (0 = auto from VRAM) |
 | `N_THREADS` | `8` | CPU threads |

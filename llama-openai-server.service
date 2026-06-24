@@ -1,0 +1,28 @@
+[Unit]
+Description=llama-openai-server – OpenAI-compatible API backed by llama.cpp (ROCm/AMD)
+Documentation=https://github.com/tantric/llama-openai-server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Documents/Projects/python/llama-openai-server
+
+# Pin ROCm to discrete GPU (Device 0) — prevents iGPU enumeration segfaults
+Environment=HIP_VISIBLE_DEVICES=0
+Environment=ROCR_VISIBLE_DEVICES=0
+
+ExecStart=/bin/bash %h/Documents/Projects/python/llama-openai-server/start.sh
+
+Restart=on-failure
+RestartSec=5s
+
+# Give the model time to load before systemd considers it failed
+TimeoutStartSec=120
+
+# Logging — captured by journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=llama-openai-server
+
+[Install]
+WantedBy=default.target

@@ -8,7 +8,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from src.api.routes import chat, completions, health, models
+from src.api.routes import chat, completions, health, models, tools
 from src.config import ensure_data_dirs, get_settings
 from src.inference.service import InferenceService
 
@@ -78,3 +78,4 @@ app.include_router(health.router, prefix="/v1")
 app.include_router(models.router, prefix="/v1")
 app.include_router(chat.router, prefix="/v1")
 app.include_router(completions.router, prefix="/v1")
+app.include_router(tools.router, prefix="/v1")
