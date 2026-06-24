@@ -51,6 +51,7 @@ class Settings(BaseSettings):
     # Q8_0 halves KV VRAM vs F16 with negligible quality loss.
     type_k: int | None = None
     type_v: int | None = None
+    cache_prompt: bool = True
 
     # Defaults used when a request omits generation parameters
     default_temperature: float = 0.7

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import queue
 import os
 import re
 import subprocess
@@ -597,11 +598,13 @@ class _LlamaCppBackend(_Backend):
         f16_kv: bool,
         type_k: int | None = None,
         type_v: int | None = None,
-        clip_model_path: str | None = None,
+                clip_model_path: str | None = None,
         clip_chat_handler: str = "auto",
+        cache_prompt: bool = True,
     ) -> None:
         self.model_id = model_id
         self.vision_enabled = clip_model_path is not None
+        self.cache_prompt = cache_prompt
         # Resolve KV cache type: explicit type_k/v override f16_kv flag.
         # GGML_TYPE_F16=1, GGML_TYPE_Q8_0=8, GGML_TYPE_Q4_0=2
         _type_k = type_k if type_k is not None else (1 if f16_kv else 8)
@@ -724,6 +727,7 @@ class _LlamaCppBackend(_Backend):
             seed=controls.seed,
             stream=False,
             grammar=grammar,
+            cache_prompt=self.cache_prompt,
         )
         choice = response["choices"][0]
         usage = response.get("usage", {})
@@ -756,6 +760,7 @@ class _LlamaCppBackend(_Backend):
             seed=controls.seed,
             stream=True,
             grammar=grammar,
+            cache_prompt=self.cache_prompt,
         )
         for item in stream:
             choice = item["choices"][0]
@@ -786,6 +791,7 @@ class _LlamaCppBackend(_Backend):
             stop=controls.stop or None,
             seed=controls.seed,
             stream=False,
+            cache_prompt=self.cache_prompt,
         )
         if tools:
             kwargs["tools"] = tools
@@ -839,6 +845,7 @@ class _LlamaCppBackend(_Backend):
             stop=controls.stop or None,
             seed=controls.seed,
             stream=True,
+            cache_prompt=self.cache_prompt,
         )
         if tools:
             kwargs["tools"] = tools
@@ -862,51 +869,72 @@ class _LlamaCppBackend(_Backend):
                 }
             return
 
-        # Tools were requested: buffer the full stream so we can detect Gemma 4's
-        # native <|tool_call>...<tool_call|> syntax (llama-cpp-python streams it
-        # as plain content, not as tool_call_chunks).
-        raw_chunks: list[dict[str, Any]] = []
+        # Tools were requested: we can stream in real-time unless we detect a tool call.
+        # For Gemma 4, tool calls are streamed as plain text starting with "<|tool_call>".
+        # For other models, tool calls are returned as structured `tool_calls` chunks.
+        gemma_prefix = "<|tool_call>"
+        buffer: list[dict[str, Any]] = []
+        accumulated_text = ""
+        is_buffering = True
+
         for item in stream:
             choice = item["choices"][0]
             finish_reason = choice.get("finish_reason")
             delta = choice.get("delta", {})
-            raw_chunks.append({
+            chunk = {
                 "delta": str(delta.get("content", "") or ""),
                 "tool_call_chunks": delta.get("tool_calls"),
                 "done": finish_reason is not None,
                 "finish_reason": str(finish_reason) if finish_reason else None,
-            })
+            }
 
-        # If llama-cpp-python already gave us structured tool_call_chunks, pass
-        # the buffer through unchanged.
-        if any(c.get("tool_call_chunks") for c in raw_chunks):
-            yield from raw_chunks
-            return
+            if chunk.get("tool_call_chunks"):
+                # Standard OpenAI tool call chunk, do not stream to client, just buffer.
+                buffer.append(chunk)
+                continue
 
-        # Check whether the accumulated text is a Gemma 4 native tool call.
-        full_text = "".join(c["delta"] for c in raw_chunks)
-        parsed = _parse_gemma_tool_calls(full_text)
-        if parsed:
-            for i, tc in enumerate(parsed):
-                yield {
-                    "delta": "",
-                    "tool_call_chunks": [{
-                        "index": i,
-                        "id": tc["id"],
-                        "type": "function",
-                        "function": {
-                            "name": tc["function"]["name"],
-                            "arguments": tc["function"]["arguments"],
-                        },
-                    }],
-                    "done": False,
-                    "finish_reason": None,
-                }
-            yield {"delta": "", "tool_call_chunks": None, "done": True, "finish_reason": "tool_calls"}
-            return
+            if is_buffering:
+                accumulated_text += chunk["delta"]
+                buffer.append(chunk)
 
-        # Plain text response — replay the buffered chunks.
-        yield from raw_chunks
+                if gemma_prefix.startswith(accumulated_text):
+                    continue
+                elif len(accumulated_text) > 0 and accumulated_text.startswith(gemma_prefix):
+                    continue
+                else:
+                    # Fails the Gemma tool-call check. Flush buffer and stream in real-time.
+                    is_buffering = False
+                    for b_chunk in buffer:
+                        yield b_chunk
+                    buffer = []
+            else:
+                yield chunk
+
+        if is_buffering:
+            # Check if the accumulated text is indeed a Gemma 4 native tool call.
+            parsed = _parse_gemma_tool_calls(accumulated_text)
+            if parsed:
+                # Yield standard tool call chunks for Gemma 4
+                for i, tc in enumerate(parsed):
+                    yield {
+                        "delta": "",
+                        "tool_call_chunks": [{
+                            "index": i,
+                            "id": tc["id"],
+                            "type": "function",
+                            "function": {
+                                "name": tc["function"]["name"],
+                                "arguments": tc["function"]["arguments"],
+                            },
+                        }],
+                        "done": False,
+                        "finish_reason": None,
+                    }
+                yield {"delta": "", "tool_call_chunks": None, "done": True, "finish_reason": "tool_calls"}
+            else:
+                # Not a tool call, flush the buffer
+                for b_chunk in buffer:
+                    yield b_chunk
 
 
 # ---------------------------------------------------------------------------
@@ -960,6 +988,7 @@ class InferenceService:
                 type_v=getattr(self.settings, "type_v", None),
                 clip_model_path=str(clip_path) if clip_path else None,
                 clip_chat_handler=self.settings.clip_chat_handler,
+                cache_prompt=getattr(self.settings, "cache_prompt", True),
             )
 
         self._backend = self._executor.submit(_init).result()
@@ -1013,10 +1042,25 @@ class InferenceService:
             raise RuntimeError("Inference backend not initialized")
         full_prompt = _build_prompt(system_prompt=system_prompt, prompt=prompt)
 
-        def _work() -> list[dict[str, Any]]:
-            return list(self._backend.stream_complete(full_prompt, controls, json_mode=json_mode))  # type: ignore[union-attr]
+        q: queue.Queue[Any] = queue.Queue(maxsize=128)
 
-        yield from self._executor.submit(_work).result()
+        def _work() -> None:
+            try:
+                for chunk in self._backend.stream_complete(full_prompt, controls, json_mode=json_mode):
+                    q.put(chunk)
+                q.put(None)
+            except Exception as exc:
+                q.put(exc)
+
+        self._executor.submit(_work)
+
+        while True:
+            item = q.get()
+            if item is None:
+                break
+            if isinstance(item, Exception):
+                raise item
+            yield item
 
     def chat_complete(
         self,
@@ -1054,10 +1098,27 @@ class InferenceService:
         if not self._backend:
             raise RuntimeError("Inference backend not initialized")
 
-        def _work() -> list[dict[str, Any]]:
-            return list(self._backend.stream_chat_complete_messages(messages, controls, tools, tool_choice, json_mode))  # type: ignore[union-attr]
+        q: queue.Queue[Any] = queue.Queue(maxsize=128)
 
-        yield from self._executor.submit(_work).result()
+        def _work() -> None:
+            try:
+                for chunk in self._backend.stream_chat_complete_messages(
+                    messages, controls, tools, tool_choice, json_mode
+                ):
+                    q.put(chunk)
+                q.put(None)
+            except Exception as exc:
+                q.put(exc)
+
+        self._executor.submit(_work)
+
+        while True:
+            item = q.get()
+            if item is None:
+                break
+            if isinstance(item, Exception):
+                raise item
+            yield item
 
     # ------------------------------------------------------------------
     # Private helpers

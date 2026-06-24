@@ -243,9 +243,10 @@ def _messages_to_dicts(messages: list[ChatMessage]) -> list[dict[str, Any]]:
 
 
 def _sse_stream(
-    raw: Generator[dict, None, None],
+    raw: Generator[dict, None, None] | list[dict],
     model: str,
     completion_id: str,
+    append_done: bool = True,
 ) -> Generator[str, None, None]:
     created = int(time.time())
     for chunk in raw:
@@ -272,7 +273,8 @@ def _sse_stream(
             ],
         }
         yield f"data: {json.dumps(payload)}\n\n"
-    yield "data: [DONE]\n\n"
+    if append_done:
+        yield "data: [DONE]\n\n"
 
 
 # ---------------------------------------------------------------------------
@@ -387,9 +389,8 @@ def _agentic_stream(
     json_mode: bool = False,
 ) -> Generator[str, None, None]:
     """
-    Streaming agentic loop.  Each iteration buffers the raw stream chunks.
-    If tool calls are present they are executed silently; the *final* response
-    (no tool calls) is replayed as SSE so the client sees true token streaming.
+    Streaming agentic loop. Streams tokens in real-time unless a tool call turn is active,
+    in which case the tool call is buffered, executed silently (if built-in), or sent to client.
     """
     assert _svc is not None
     all_t = _all_tools(client_tools) or None
@@ -397,28 +398,40 @@ def _agentic_stream(
     effective_choice: Any = _effective_tool_choice(tool_choice, client_tools)
 
     for _ in range(_MAX_TOOL_ITERATIONS):
-        # Buffer the entire stream for this iteration so we can inspect it
-        raw_chunks = list(
-            _svc.stream_chat_complete(current, controls, tools=all_t, tool_choice=effective_choice, json_mode=json_mode)
+        stream = _svc.stream_chat_complete(
+            current, controls, tools=all_t, tool_choice=effective_choice, json_mode=json_mode
         )
         effective_choice = "auto"
 
-        finish_reason = next(
-            (c["finish_reason"] for c in reversed(raw_chunks) if c.get("finish_reason")),
-            None,
-        )
+        raw_chunks = []
+        is_tool_call = False
+        is_streaming_to_client = True
+
+        for chunk in stream:
+            raw_chunks.append(chunk)
+
+            if chunk.get("tool_call_chunks"):
+                is_tool_call = True
+                is_streaming_to_client = False
+                continue
+
+            if is_streaming_to_client:
+                yield from _sse_stream(iter([chunk]), model_id, cid, append_done=False)
+
         tool_calls = _collect_stream_tool_calls(raw_chunks)
 
-        if finish_reason != "tool_calls" or not tool_calls:
-            # Final response — replay chunks as live SSE
-            yield from _sse_stream(iter(raw_chunks), model_id, cid)
+        if not tool_calls:
+            # Final text turn is done
+            yield "data: [DONE]\n\n"
             return
 
         if _has_non_builtin(tool_calls):
-            # Client must handle — emit tool-call SSE as-is
-            yield from _sse_stream(iter(raw_chunks), model_id, cid)
+            # Contains client-managed tools — stream the buffered tool call chunks to caller
+            yield from _sse_stream(iter(raw_chunks), model_id, cid, append_done=False)
+            yield "data: [DONE]\n\n"
             return
 
+        # Silently execute built-in tool call and repeat agentic loop
         text = "".join(c.get("delta", "") for c in raw_chunks) or None
         current.append({
             "role": "assistant",
